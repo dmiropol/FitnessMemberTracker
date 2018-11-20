@@ -1,0 +1,25 @@
+Body
+Date,Weight,BMI,Fat
+"2018-11-10","85.2","27.51","0"
+
+Foods
+Date,Calories In
+"2018-11-10","0"
+
+Activities
+Date,Calories Burned,Steps,Distance,Floors,Minutes Sedentary,Minutes Lightly Active,Minutes Fairly Active,Minutes Very Active,Activity Calories
+"2018-11-10","2,440","5,225","3.93","15","1,287","122","7","24","809"
+
+Sleep
+Start Time,End Time,Minutes Asleep,Minutes Awake,Number of Awakenings,Time in Bed,Minutes REM Sleep,Minutes Light Sleep,Minutes Deep Sleep
+
+Food Log 20181110
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+

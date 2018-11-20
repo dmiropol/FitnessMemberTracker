@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= action %> Records</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= action %> Records </h1>
+    <%- include('nav'); %>
+
+    <h3>Action <%= action %> completed successfully.</h3>
+    <p>Private URL: <%= record %> </p>
+    <% if (typeof content != 'undefined') { %>
+    <div id="container" style="width:100%;">                                   
+  		<div id="left" style="float:left; width:100%;"> 
+        <p> Content </p>
+  	    <textarea style="width:1000px;height:500px;font-size:14px">
+            <%= content %>     
+  		</textarea> 
+  	    </div>
+      </div>
+    <% } %>
+  </body>
+</html>

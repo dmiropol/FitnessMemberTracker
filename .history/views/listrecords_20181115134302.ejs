@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Records list</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h3>Records list </h3>
+    <p>Listing <%= records.length %> records:</p>
+   	  		<% if (records.length > 0) { %>  
+			<% var listKyes = Object.keys(records[0]) ; %>
+<label>index</label>	
+		  	<% for (var i in listKyes) { %>	  
+<label class="listKeys"><%= listKyes[i] %></label>
+		  	<% } %>	
+		  	<% for (var i in records) { %>
+<p><%= i %>: <a href="/show/<%= records[i].name %>"><%= JSON.stringify(Object.values(records[i])) %></a> </p>
+ 			<% }  %>     			
+ 			<% } else { %>
+ 			Nothing found, check console log for more details. 
+ 			<% }  %>
+    
+  </body>
+</html>

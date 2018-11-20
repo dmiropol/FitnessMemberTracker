@@ -1,0 +1,14 @@
+{
+  "name": "FitnessMember",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^2.3.0",
+    "ejs": "*",
+    "eslint": "^5.9.0",
+    "express": "^4.16.4"
+  }
+}

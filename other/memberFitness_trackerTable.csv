@@ -1,0 +1,1 @@
+Member_ID:INTEGER,First_Name:STRING,Last_Name:STRING,Gender:STRING,Age:INTEGER,Height:FLOAT,Weight:INTEGER,Hours_Sleep:INTEGER,Calories_Consumed:INTEGER,Exercise_Calories_Burned:INTEGER,Date:DATE
