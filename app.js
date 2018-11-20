@@ -109,14 +109,12 @@ function dataRandomizer(req, res){
 	res.render('dataRandomizer');
 }
 
-
-
 function deleteRecords(req, res){
 	var recordsList = req.body.recordsList;
 	res.render('listrecords', { records: recordsList, action: 'delete'});
 }
 
-async function deleteFile(req, res, next){
+async function deleteFile(req, res){
 	await storage.deleteFile(req.params.fileName);
 	res.render('actionconfirm', { action: 'Delete', record: req.params.fileName});
 }
@@ -133,8 +131,6 @@ async function showFile(req, res, next){
 	});
 	res.render('actionconfirm', { action: 'Show', record: srcFile, content: content});
 }
-
-
 
 
 app.get('/', index);

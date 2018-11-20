@@ -38,7 +38,7 @@ function csvJSON(csv){
 	  }
 	  result.push(obj);
   }
-  console.log('csvJSON convert result: \n' + JSON.stringify(result));
+  // console.log('csvJSON convert result: \n' + JSON.stringify(result));
   return JSON.stringify(result); 
 }
 
