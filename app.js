@@ -77,15 +77,19 @@ async function uploadRecords(req, res){
 	}
 	
 	var lines = jsonTools.formatForDataflow(jsonObj, "\n");
-	fs.writeFile(fileName, lines, 'utf8', function (err) {
-	    if (err)  return console.log(err);
-	    console.log(fileName + ' Formatted for Dataflow and stored locally... uploading to storage.')
-	}); 
-	await storage.uploadFile(fileName);
-	fs.unlink(fileName, function (err) {
-	    if (err)  return console.log(err);
-	    console.log(fileName + ' locally deleted.')
-	});
+	// save local file, upload to gcs and delete local file.
+	// fs.writeFile(fileName, lines, 'utf8', function (err) {
+	//     if (err)  return console.log(err);
+	//     console.log(fileName + ' Formatted for Dataflow and stored locally... uploading to storage.')
+	// }); 
+	// await storage.uploadFile(fileName);
+	// fs.unlink(fileName, function (err) {
+	//     if (err)  return console.log(err);
+	//     console.log(fileName + ' locally deleted.')
+	// });
+
+	// if running on GAE, can't use local files
+	storage.fileSave(lines, fileName);
 	res.render('actionconfirm', { action: 'Upload', record: storage.getPrivateUrl(fileName)});
 }
 
@@ -119,17 +123,25 @@ async function deleteFile(req, res){
 	res.render('actionconfirm', { action: 'Delete', record: req.params.fileName});
 }
 
-async function showFile(req, res, next){
-	var destFile = './temp.txt';
+async function showFile(req, res){
 	var srcFile = req.params.fileName;
-	await storage.downloadFile(srcFile, destFile);
 	
-	var content = fs.readFileSync(destFile, 'utf-8');
-	fs.unlink(destFile, function (err) {
-	    if (err)  return console.log(err);
-	    console.log(destFile + ' locally deleted.')
+	// download file locally, read and and delete locally
+	// var destFile = './temp.txt';
+	// await storage.downloadFile(srcFile, destFile);
+	
+	// var content = fs.readFileSync(destFile, 'utf-8');
+	// fs.unlink(destFile, function (err) {
+	//     if (err)  return console.log(err);
+	//     console.log(destFile + ' locally deleted.')
+	// });
+
+	// if running on GAE, can't use local files
+	await storage.fileRead(srcFile, function(content){
+		console.log('callback got content: \n' + content);
+		res.render('actionconfirm', { action: 'Show', record: srcFile, content: content});	
 	});
-	res.render('actionconfirm', { action: 'Show', record: srcFile, content: content});
+	
 }
 
 

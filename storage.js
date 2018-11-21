@@ -27,6 +27,41 @@
 const {Storage} = require('@google-cloud/storage');
 const storage = new Storage({ projectId: 'iot2analytics-2018' });
 const bucketName = 'member_fitness_tracker_storage';
+const bucket = storage.bucket(bucketName);
+
+
+// Process the file upload and upload to Google Cloud Storage.
+//app.post('/upload', multer.single('file'), (req, res, next) => {
+function fileSave (contents, fileName)  {
+  
+  // Create a new blob in the bucket and upload the file data.
+  
+  const file = bucket.file(fileName);
+  
+  file.save(contents, function(err) {
+    if (!err) {
+      console.log('File ' + fileName + ' saved to bucket ' + bucket.name ); 
+    }
+  });
+  
+}
+
+async function fileRead(fileName, cb){
+  const remoteFile = bucket.file(fileName);
+  var content = '';
+  await remoteFile.createReadStream()
+    .on('error', function(error){
+      console.log('Error:', error.message);
+      cb(error.message);
+    })
+    .on('data',function(buffer){
+      content += buffer.toString();
+    })
+    .on('end',function(){
+      //console.log('Finished reading file ' + bucket.name + '/' + fileName + '\n' + content);
+      cb(content);
+    });
+}
 
 async function uploadFile(filename) {
 	await storage.bucket(bucketName).upload(filename, {
@@ -120,7 +155,9 @@ async function getMetadata(filename) {
 
 
 module.exports = {
-	uploadFile,
+  uploadFile,
+  fileSave,
+  fileRead,
 	getPrivateUrl,
 	listFiles,
 	getMetadata,
