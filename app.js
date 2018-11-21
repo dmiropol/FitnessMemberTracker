@@ -64,6 +64,7 @@ function listRecords(req, res){
 	res.render('listRecords', {records: recordsList, action: 'show'});
 }
 
+
 async function uploadRecords(req, res){
 	
 	var req_body = req.body.req_body;
@@ -115,7 +116,7 @@ function dataRandomizer(req, res){
 
 function deleteRecords(req, res){
 	var recordsList = req.body.recordsList;
-	res.render('listrecords', { records: recordsList, action: 'delete'});
+	res.render('listRecords', { records: recordsList, action: 'delete'});
 }
 
 async function deleteFile(req, res){
