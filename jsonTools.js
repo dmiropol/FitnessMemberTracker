@@ -1,12 +1,24 @@
 
-var fs = require('fs');
+var  fs = require('fs');
+const storage = require('./storage');
 
 function validateJson(jsonObj){
+	var date;
 	for (var i in jsonObj){
-		var date = (jsonObj[i].hasOwnProperty('Date')) ? jsonObj[i]['Date'] : jsonObj[i]['Date\r'];			
-		if (date.includes('/') != -1){
-			jsonObj[i]['Date'] = formatDate(new Date(date));
-			delete jsonObj[i]['Date\r'];
+		if (jsonObj[i].hasOwnProperty('Date'))
+			date = jsonObj[i]['Date'];
+		else if (jsonObj[i].hasOwnProperty('Date\r\n'))
+			date = jsonObj[i]['Date\r\n'];
+		else 
+			date = jsonObj[i]['Date\r'] ;
+		if (typeof date !== 'undefined'){
+			if (date.includes('/') !== -1){
+				jsonObj[i]['Date'] = formatDate(new Date(date));
+				delete jsonObj[i]['Date\r'];
+			}	
+		} else {
+			console.log('error! could not detect Date');
+			delete jsonObj[i];
 		}
 	}
 	console.log('validated json object, contains ' + jsonObj.length + ' items');
@@ -31,14 +43,13 @@ function csvJSON(csv){
   var headers=lines[0].split(",");
   for(var i=1;i<lines.length;i++){
 	  var obj = {};
-	  
 	  var currentline=lines[i].split(",");
 	  for(var j=0;j<headers.length;j++){
 		  obj[headers[j]] = currentline[j];
 	  }
 	  result.push(obj);
   }
-  // console.log('csvJSON convert result: \n' + JSON.stringify(result));
+  console.log('csvJSON convert partial result: \n' + JSON.stringify(result).substr(0, 250) + '.......');
   return JSON.stringify(result); 
 }
 
@@ -67,6 +78,7 @@ function randomizeData(jsonObj, srcFile, iter, fileSelector){
 			singleRecord.Hours_Sleep = getRandomIntInclusive(6,9).toFixed(0);
 			singleRecord.Calories_Consumed = getRandomIntInclusive(1000, 2000).toFixed(0);
 			singleRecord.Exercise_Calories_Burned = getRandomIntInclusive(400, 1000).toFixed(0);
+			singleRecord.Weight =  (parseInt(singleRecord.Weight) + parseInt(getRandomIntInclusive(5, -5).toFixed(0))).toString();
 			var year = singleRecord.Date.substr(0,4);
 			var month = (Math.random() * (12 - 1) + 1).toFixed(0);
 			var month_str = (month.length == 2) ? month : "0" + month;
@@ -79,21 +91,25 @@ function randomizeData(jsonObj, srcFile, iter, fileSelector){
 			allRecords.push(JSON.parse(JSON.stringify(singleRecord)));			
 		}
 		if (fileSelector == 'individual'){
-			fileName = 'Mock_' + srcFile + "_" + iter + "_" + singleRecord.First_Name + singleRecord.Last_Name + '.json';
+			fileName = 'Mock_' + srcFile + "_" + iter + "_" + singleRecord.First_Name + singleRecord.Last_Name + '.txt';
 			fileContent = JSON.stringify(changedRecords, null, 1);
-			fs.writeFile(fileName, fileContent, 'utf8', function (err) {
-				if (err)  return console.log(err);  
-				console.log('individual data saved to: ' + fileName);
-			});
+			// use for local storage
+			// fs.writeFile(fileName, fileContent, 'utf8', function (err) {
+			// 	if (err)  return console.log(err);  
+			// 	console.log('individual data saved to: ' + fileName);
+			// });
+			storage.fileSave(fileContent, fileName);
 		}
 	}
 	if (fileSelector == 'aggregate'){
-		fileName = 'Mock_' + srcFile + '_aggregate_' + iter + '.json';
+		fileName = 'Mock_' + srcFile + '_aggregate_' + iter + '.txt';
 		fileContent =  JSON.stringify(allRecords, null, 1);
-		fs.writeFile(fileName, fileContent, 'utf8', function (err) {
-			if (err)  return console.log(err);  
-			console.log('aggregate data saved to: ' + fileName);
-		});
+		// use for local storage
+		// fs.writeFile(fileName, fileContent, 'utf8', function (err) {
+		// 	if (err)  return console.log(err);  
+		// 	console.log('aggregate data saved to: ' + fileName);
+		// });
+		storage.fileSave(fileContent, fileName);
 	} 
 	return allRecords;
 }

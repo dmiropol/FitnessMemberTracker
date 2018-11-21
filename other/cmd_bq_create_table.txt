@@ -6,7 +6,7 @@ dataset=memberFitness_tracker
 table=memberFitness_trackerTable
 
 create Ingestion-Time Partitioned Table
-bq mk --table --time_partitioning_type=DAY --time_partitioning_expiration 3600 --description "Ingestion-Time Partitioned Table" $project:$dataset.$table $schema
+bq mk --table --time_partitioning_type=DAY --time_partitioning_expiration 31536000 --description "Ingestion-Time Partitioned Table" $project:$dataset.$table $schema
 
 
 create regular table
