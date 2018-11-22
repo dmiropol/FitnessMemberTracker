@@ -31,19 +31,14 @@ const bucket = storage.bucket(bucketName);
 
 
 // Process the file upload and upload to Google Cloud Storage.
-//app.post('/upload', multer.single('file'), (req, res, next) => {
-function fileSave (contents, fileName)  {
-  
-  // Create a new blob in the bucket and upload the file data.
-  
+
+function fileSave (contents, fileName)  {  
   const file = bucket.file(fileName);
-  
   file.save(contents, function(err) {
     if (!err) {
       console.log('File ' + fileName + ' saved to bucket ' + bucket.name ); 
     }
   });
-  
 }
 
 async function fileRead(fileName, cb){
@@ -83,14 +78,12 @@ async function listFiles() {
 	    console.log(file.name);
 	    //console.log(file.metadata);
 	  });
-	  
 	  return files;
 	}
 
 async function downloadFile(srcFilename, destFilename) {
 
   const options = {
-    // The path to which the file should be downloaded, e.g. "./file.txt"
     destination: destFilename,
   };
 
@@ -103,7 +96,6 @@ async function downloadFile(srcFilename, destFilename) {
   console.log(
     `gs://${bucketName}/${srcFilename} downloaded to ${destFilename}.`
   );
-  // [END storage_download_file]
 }
 
 async function deleteFile(filename) {

@@ -99,7 +99,7 @@ function randomData(req, res){
 	var iterValue = req.query.iterValue;
 	var fileSelector = req.query.fileSelector;
 	var req_body = req.body.req_body;
-	console.log('checking req_body: ' + fileName + '\n' + JSON.stringify(req_body, null, 1));
+	console.log('checking req_body: ' + fileName + '\n' + JSON.stringify(req_body, null, 1).substr(0,250) + '......');
 	if (fileName.endsWith('csv')){
 		jsonObj = jsonTools.validateJson(JSON.parse(jsonTools.csvJSON(req_body)));
 	} else {
