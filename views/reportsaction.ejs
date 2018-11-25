@@ -7,7 +7,7 @@
   <body background="background.png">
     <h1 class="center"><%= action %> Reports </h1>
     <%- include('nav'); %>
-    <% if (action == 'View' || action == 'Share' ) { %>
+    <% if (action == 'View' ) { %>
       <iframe width="1300" height="800" align="center" src="https://datastudio.google.com/embed/reporting/1UOlITjDsw_naajYBFRs1oNxBjagXqv13/page/ZESP" 
             frameborder="0" style="border:0" allowfullscreen ></iframe>
     <% } else { %>
