@@ -1,5 +1,6 @@
 project=fitness-member-tracker
-staging_bucket=gs://staging-fitness-member-tracker
+gcloud config set core/project $project
+staging_bucket=gs://staging-$project
 gsutil mb -p $project -c multi_regional -l us $staging_bucket
 
 staging_location=$staging_bucket/tmp
