@@ -1,0 +1,20 @@
+cat fmt-storage-lc.json
+{
+"lifecycle": {
+  "rule": [
+  {
+    "action": {"type": "Delete"},
+    "condition": {
+      "age": 30
+    }
+  }
+]
+}
+}
+
+
+project=fitness-member-tracker
+bucket=gs://fitness-member-tracker-storage
+
+gsutil mb -p $project -c multi_regional -l us $bucket
+gsutil lifecycle set fmt-storage-lc.json $bucket

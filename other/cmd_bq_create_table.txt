@@ -1,9 +1,11 @@
 
 
 schema=Member_ID:INTEGER,First_Name:STRING,Last_Name:STRING,Gender:STRING,Age:INTEGER,Height:FLOAT,Weight:INTEGER,Hours_Sleep:INTEGER,Calories_Consumed:INTEGER,Exercise_Calories_Burned:INTEGER,Date:DATE
-project=iot2analytics-2018
-dataset=memberFitness_tracker
-table=memberFitness_trackerTable
+project=fitness-member-tracker
+dataset=fmt_dataset
+table=fmt_table
+
+bq --location=US mk --dataset  $project:$dataset
 
 create Ingestion-Time Partitioned Table
 bq mk --table --time_partitioning_type=DAY --time_partitioning_expiration 31536000 --description "Ingestion-Time Partitioned Table" $project:$dataset.$table $schema
@@ -42,24 +44,6 @@ bq query --use_legacy_sql=true '
 SELECT
   *
 FROM
-  [memberFitness_tracker.memberFitness_trackerTable$__PARTITIONS_SUMMARY__]'
+  [fmt_dataset.fmt_table$__PARTITIONS_SUMMARY__]'
 
-  
-bq query --use_legacy_sql=true '
-SELECT
-  First_Name
-FROM
-  [memberFitness_tracker.memberFitness_trackerTable]
-WHERE
-  _PARTITIONTIME IS NULL
-LIMIT 10 '
 
-bq query --use_legacy_sql=true "
-SELECT
-  First_Name
-FROM
-  [memberFitness_tracker.memberFitness_trackerTable]
-WHERE
-  _PARTITIONTIME BETWEEN TIMESTAMP('2018-11-19') AND TIMESTAMP('2018-11-20')
-
-LIMIT 10 "

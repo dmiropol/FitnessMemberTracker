@@ -6,9 +6,9 @@
  */
 exports.subscribe = function (event, callback) {
   const BigQuery = require('@google-cloud/bigquery');
-  const projectId = "iot2analytics-2018"; //Enter your project ID here
-  const datasetId = "memberFitness_tracker"; //Enter your BigQuery dataset name here
-  const tableId = "memberFitness_trackerTable"; //Enter your BigQuery table name here -- make sure it is setup correctly
+  const projectId = "fitness-member-tracker"; //Enter your project ID here
+  const datasetId = "fmt_dataset"; //Enter your BigQuery dataset name here
+  const tableId = "fmt_table"; //Enter your BigQuery table name here -- make sure it is setup correctly
   const PubSubMessage = event.data;
   
   // Incoming data is in JSON format

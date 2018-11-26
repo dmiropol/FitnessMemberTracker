@@ -1,6 +1,0 @@
-gsutil mb gs://iotanalytics-acceess-log
-gsutil acl ch -g cloud-storage-analytics@google.com:W gs://iotanalytics-acceess-log
-gsutil defacl set project-private gs://iotanalytics-acceess-log
-gsutil logging set on -b gs://iotanalytics-acceess-log -o log_object_prefix gs://member_fitness_tracker_storage
-
-gsutil logging get gs://member_fitness_tracker_storage

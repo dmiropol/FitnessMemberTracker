@@ -1,13 +1,23 @@
-gcloud dataflow jobs run fitness-member-tracker-gcs-to-ps \
-        --gcs-location gs://dataflow-templates/latest/GCS_Text_to_Cloud_PubSub \
-        --region=us-east1 \
-        --staging-location=gs://staging-iotanalytics-2018/tmp \
-        --parameters \
-        inputFilePattern=gs://member_fitness_tracker_storage/*.json,outputTopic=projects/iot2analytics-2018/topics/member_fitness
-        
+project=fitness-member-tracker
+staging_bucket=gs://staging-fitness-member-tracker
+gsutil mb -p $project -c multi_regional -l us $staging_bucket
+
+staging_location=$staging_bucket/tmp
+inputFiles=gs://fitness-member-tracker-storage/*.json
+outputTopic=projects/fitness-member-tracker/topics/fitness-member-data
+
 gcloud dataflow jobs run fitness-member-tracker-gcs-to-ps-stream \
         --gcs-location gs://dataflow-templates/latest/Stream_GCS_Text_to_Cloud_PubSub \
         --region=us-east1 \
-        --staging-location=gs://staging-iotanalytics-2018/tmp \
+        --staging-location=$staging_location \
         --parameters \
-        inputFilePattern=gs://member_fitness_tracker_storage/*.json,outputTopic=projects/iot2analytics-2018/topics/member_fitness
+        inputFilePattern=$inputFiles,outputTopic=$outputTopic
+        
+
+gcloud dataflow jobs run fitness-member-tracker-gcs-to-ps-batch \
+        --gcs-location gs://dataflow-templates/latest/GCS_Text_to_Cloud_PubSub \
+        --region=us-east1 \
+        --staging-location=$staging_location \
+        --parameters \
+        inputFilePattern=$inputFiles,outputTopic=$outputTopic
+        

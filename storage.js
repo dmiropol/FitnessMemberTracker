@@ -25,8 +25,8 @@
 
 
 const {Storage} = require('@google-cloud/storage');
-const storage = new Storage({ projectId: 'iot2analytics-2018' });
-const bucketName = 'member_fitness_tracker_storage';
+const storage = new Storage({ projectId: 'fitness-member-tracker' });
+const bucketName = 'fitness-member-tracker-storage';
 const bucket = storage.bucket(bucketName);
 
 
@@ -143,8 +143,6 @@ async function getMetadata(filename) {
   console.log(`Metadata: ${metadata.metadata}`);
   // [END storage_get_metadata]
 }
-
-
 
 module.exports = {
   uploadFile,
